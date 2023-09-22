@@ -1,20 +1,26 @@
 {
   "name": "esphome-drawmock",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "1.1.0",
+  "description": "SimpSimply generate ESPHome display mockups",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "snowpack dev",
-    "postinstall": "patch-package"
+    "start": "vite"
   },
-  "author": "",
+  "contributors": [
+    "gregod <github@k9z.de>",
+    "Mitchell <2432593-ping-localhost@users.noreply.gitlab.com>"
+  ],
   "license": "AGPL",
   "devDependencies": {
+    "@types/hyperscript": "^0.0.5",
     "hyperscript": "^2.0.2",
     "patch-package": "^6.2.2",
     "printj": "^1.2.2",
-    "snowpack": "^3.0.11"
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
   },
-  "dependencies": {}
+  "packageManager": "yarn@3.6.3",
+  "dependencies": {
+    "unplugin-fonts": "^1.0.3"
+  }
 }

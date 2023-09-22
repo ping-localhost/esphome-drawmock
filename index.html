@@ -1,17 +1,19 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="/esphome.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ESPHome - Drawmock</title>
     <style>
         html,
         body {
             height: 100%;
             width: 100%;
             margin: 0;
-            
         }
 
-        body,#root {
+        body, #app {
             background: #fff;
             display: flex;
             justify-content: center;
@@ -24,34 +26,37 @@
             outline: 1px solid #aaa;
             background: #efefef;
         }
-        h2{ margin:0}
+
+        h2 {
+            margin: 0
+        }
+
         .controls {
-            border:1px solid #ddd;
-            padding:1em;
-            margin-left:2em;
-            background:#eee;
+            border: 1px solid #ddd;
+            padding: 1em;
+            margin-left: 2em;
+            background: #eee;
             max-width: 15em;
         }
-        
         .controls > div {
-            margin-top:1em;
+            margin-top: 1em;
         }
+
         input[type=number] {
             max-width: 4em;
         }
+
         label {
             letter-spacing: -0.025em;
         }
+
         dd {
             margin-bottom: 1em;
         }
     </style>
-    
 </head>
-
 <body>
-    <div id="root"></div>
-    <script type="module" src="./main.js"></script>
+<div id="app"></div>
+<script type="module" src="/src/main.ts"></script>
 </body>
-
 </html>

@@ -20,68 +20,60 @@ export class Bitmap {
 }
 
 module strftime {
-    var currentDate: Date = new Date();
+    const currentDate: Date = new Date();
 
-    var days: Array<string> = [
+    const days: Array<string> = [
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     ];
 
-    var months: Array<string> = [
+    const months: Array<string> = [
         "January", "February", "March", "April", "May", "June", "July", "August", "September",
         "October", "November", "December"
     ];
 
-    export function set_days(day_names: Array<string>) {
-        days = day_names;
-    }
-
-    export function set_months(month_names: Array<string>) {
-        months = month_names;
-    }
-
     // source: https://stackoverflow.com/questions/8619879/javascript-calculate-the-day-of-the-year-1-366
     function helper_dayOfYear(date: any) {
-        var start: any = new Date(date.getFullYear(), 0, 0);
-        var diff = date - start;
-        var oneDay = 1000 * 60 * 60 * 24;
+        const start: any = new Date(date.getFullYear(), 0, 0);
+        const diff = date - start;
+        const oneDay = 1000 * 60 * 60 * 24;
         return Math.floor(diff / oneDay);
     }
 
     // source: http://weeknumber.net/how-to/javascript
     function helper_weekOfYear(date_: Date): number {
-        var date = new Date(date_.getTime());
+        const date = new Date(date_.getTime());
         date.setHours(0, 0, 0, 0);
         // Thursday in current week decides the year.
         date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
         // January 4 is always in week 1.
-        var week1 = new Date(date.getFullYear(), 0, 4);
+        const week1 = new Date(date.getFullYear(), 0, 4);
         // Adjust to Thursday in week 1 and count number of weeks from date to week1.
         return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
             - 3 + (week1.getDay() + 6) % 7) / 7);
     }
 
     function helper_englishWeekOfYear(date: Date): number {
-        var nr: number = helper_weekOfYear(date);
+        let nr: number = helper_weekOfYear(date);
         if (date.getDay() === 0) {
             nr = nr - 1;
         }
-        return nr;
-    }
 
-    export function set_currentDate(date: Date) {
-        currentDate = date;
+        return nr;
     }
 
     export function parse(format: string, date?: Date) {
         if (!date) {
             date = currentDate;
         }
-        var ret = format;
-        var re = new RegExp("%[a-z]", "gi");
-        var match;
+
+        const re = new RegExp("%[a-z]", "gi");
+        let ret = format;
+
+        let match;
         while (match = re.exec(format)) {
-            ret = ret.replace(match[0], parse_segment(match[0]));
+            ret = ret.replace(match[0], parse_segment(match[0], date));
         }
+
         return ret;
     }
 
@@ -89,7 +81,7 @@ module strftime {
         if (!date) {
             date = currentDate;
         }
-        var hm_segments = {
+        const hm_segments = {
             "%a": function () {
                 return days[date.getDay()].slice(0, 3);
             },
@@ -334,7 +326,7 @@ class StringState extends String {
 
 export class StringSensor extends Sensor<StringState> {
     constructor(public name: string, public input: string = undefined) {
-        super(name,  new StringState(input))
+        super(name, new StringState(input))
     }
 }
 

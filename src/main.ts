@@ -1,4 +1,4 @@
-import {COLOR_ON, Font, id, NumericSensor, StringSensor, TextAlign, TimeSensor, UI} from './lib';
+import {COLOR_ON, Font, id, NumericSensor, StringSensor, TextAlign, TimeSensor, UI} from './display.ts';
 
 // mock the fonts registered in esphome, use the variable name as id
 const roboto: Font = "20px Roboto"
@@ -15,7 +15,7 @@ const config_version = new StringSensor("Version", 'v23.09.01');
 const ntp = new TimeSensor("Time", new Date());
 
 // initialize the gui, set the screen size
-let ui = new UI(document.getElementById("root"), 296, 128);
+let ui = new UI(document.getElementById("app"), 296, 128);
 
 // add controls for the sensors to the mock gui
 ui.registerSensor(esp_wifi_rssi);
