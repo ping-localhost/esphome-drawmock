@@ -1,0 +1,78 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+body, #app {
+    background: #fff;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-flow: wrap;
+}
+
+#app hr {
+    width: 100%;
+    height: 10px;
+    border: 0;
+}
+
+canvas {
+    border: 5px solid #e2e1e1;
+    outline: 1px solid #aaa;
+    background: #efefef;
+}
+
+h2 {
+    margin: 0
+}
+
+.controls {
+    display: flex;
+    border: 1px solid #ddd;
+    padding: 1em;
+    margin-left: 2em;
+    background: #eee;
+    min-width: 40em;
+    min-height: 25em;
+    flex-direction: column;
+    align-items: center;
+}
+
+.controls > div {
+    margin-top: 1em;
+}
+
+input[type=number] {
+    max-width: 4em;
+}
+input[type=text] {
+    max-width: 8em;
+    text-align: center;
+}
+
+label {
+    letter-spacing: -0.025em;
+}
+
+dl {
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+dt {
+    font-weight: bold;
+    padding: 0;
+    margin: 0
+}
+
+dd {
+    padding: 0;
+    margin: 0 0 0.5em;
+}
