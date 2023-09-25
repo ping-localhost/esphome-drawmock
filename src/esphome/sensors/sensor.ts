@@ -5,4 +5,8 @@ export class Sensor<T> {
     has_state(): boolean {
         return !!this.state
     }
+
+    is_ready() {
+        return true;
+    }
 }

@@ -5,10 +5,18 @@ export default defineConfig({
     plugins: [
         Unfonts({
             google: {
-                preconnect: true,
                 families: ['Roboto'],
                 display: 'block',
             },
+            custom: {
+                families: [{
+                    name: 'Material Icons',
+                    local: 'Material Icons',
+                    src: './src/assets/fonts/materialdesignicons-webfont.woff2',
+                }],
+                display: 'block',
+                preload: true
+            }
         }),
     ],
 })

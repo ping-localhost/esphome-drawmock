@@ -1,5 +1,7 @@
-export const COLOR_OFF: Color = "white"
-export const COLOR_ON: Color = "black"
+export enum Color  {
+    WHITE = "white",
+    BLACK = "black"
+}
 
 export enum TextAlign {
     LEFT = "left",
@@ -17,4 +19,5 @@ export class Bitmap {
 
 /* glue code */
 export type Font = string;
-export type Color = string;
+export const COLOR_OFF: Color = Color.WHITE;
+export const COLOR_ON: Color = Color.BLACK;

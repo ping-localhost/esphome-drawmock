@@ -6,7 +6,7 @@ body {
 }
 
 body, #app {
-    background: #fff;
+    background: #ddd;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -48,6 +48,7 @@ h2 {
 input[type=number] {
     max-width: 4em;
 }
+
 input[type=text] {
     max-width: 8em;
     text-align: center;

@@ -6,6 +6,12 @@ import {NumericSensor} from "../esphome/sensors/numeric_sensor.ts";
 import {StringSensor} from "../esphome/sensors/string_sensor.ts";
 import './ui.css'
 
+// forcefully add material icons
+document.fonts.add(new FontFace(
+    'Material Icons',
+    'url(./src/assets/fonts/materialdesignicons-webfont.woff2)'
+))
+
 export class UI {
     sensors: Sensor<any>[] = [];
     renderLoop: (i: Gfx) => void;
@@ -39,6 +45,9 @@ export class UI {
 
         // fix variables
         code = code.replace(/(var|const|let) (.*) =/g, "auto $2 =");
+
+        // fix codepoints
+        code = code.replace(/U([0-9A-Fa-f]{8})/g, "\\$1");
 
         return code;
     }

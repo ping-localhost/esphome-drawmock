@@ -1,6 +1,7 @@
 import {sprintf} from 'printj';
 import {Bitmap, Color, COLOR_ON, Font, TextAlign} from "./constants.ts";
 import {strftime} from "./modules/strftime.ts";
+import {GraphSensor} from "./sensors/graph_sensor.ts";
 
 export class Gfx {
     private ctx: CanvasRenderingContext2D;
@@ -26,22 +27,55 @@ export class Gfx {
         return maxWidth / ctx.measureText(text).width;
     }
 
-    public print(x: number, y: number, font: Font, align: TextAlign, text: string) {
-        this.ctx.save()
+    print(x: number, y: number, font: Font, color: Color, align: TextAlign, text: string): void
+    print(x: number, y: number, font: Font, color: Color, text: string): void;
+    print(x: number, y: number, font: Font, align: TextAlign, text: string): void;
+    print(x: number, y: number, font: Font, text: string): void;
+    print(x: number, y: number, font: Font, option1: Color | TextAlign | string, option2?: Color | TextAlign | string, text?: string): void {
+        this.ctx.save();
 
+        // Set the font and alignment based on the arguments
         this.ctx.font = font;
-        this.ctx.textAlign = align;
+
+        // Set defaults
+        this.ctx.textAlign = TextAlign.LEFT;
+        this.ctx.fillStyle = COLOR_ON;
+
+        // Magic to ensure overloading works
+        if (Object.values(Color).includes(option1 as Color)) {
+            this.ctx.fillStyle = option1;
+        } else if (Object.values(TextAlign).includes(option1 as TextAlign)) {
+            this.ctx.textAlign = option1 as TextAlign;
+        } else if (typeof option1 === 'string') {
+            text = option1;
+        }
+        if (option2 !== undefined) {
+            if (Object.values(Color).includes(option2 as Color)) {
+                this.ctx.fillStyle = option2;
+            } else if (Object.values(TextAlign).includes(option2 as TextAlign)) {
+                this.ctx.textAlign = option2 as TextAlign;
+            } else if (typeof option2 === 'string') {
+                text = option2;
+            }
+        }
+
+        // Replace codepoints
+        text = text.replace(/U([0-9A-Fa-f]{8})/g, function (_, hex) {
+            return String.fromCodePoint(parseInt(hex, 16));
+        });
+
+        // Draw the text
         this.ctx.fillText(text, x, y);
 
-        this.ctx.restore()
+        this.ctx.restore();
     }
 
     public printf(x: number, y: number, font: Font, text: string, ...args: any[]) {
-        this.print(x, y, font, TextAlign.LEFT, sprintf(text, ...args))
+        this.print(x, y, font, sprintf(text, ...args))
     }
 
     public strftime(x: number, y: number, font: Font, text: string, date?: Date) {
-        this.print(x, y, font, TextAlign.LEFT, strftime.parse(text, date))
+        this.print(x, y, font, strftime.parse(text, date))
     }
 
     public fill(color: Color) {
@@ -92,6 +126,36 @@ export class Gfx {
         this.ctx.drawImage(image.img, x, y);
     }
 
+
+    public graph(x1: number, y1: number, sensor: GraphSensor, color: Color = COLOR_ON) {
+        this.ctx.save();
+
+        // Calculate centers
+        const y1center = (y1 + sensor.height / 2);
+        const x1center = (x1 + sensor.width / 2);
+
+        // Draw the rectangle
+        this.rectangle(x1, y1, sensor.width, sensor.height, color)
+
+        // Add x-axis
+        this.horizontal_line(x1, y1center - sensor.height / 4, sensor.width)
+        this.horizontal_line(x1, y1center, sensor.width)
+        this.horizontal_line(x1, y1center + sensor.height / 4, sensor.width)
+
+        // Add y-axis
+        this.vertical_line(x1center - sensor.width / 4, y1, sensor.height)
+        this.vertical_line(x1center, y1, sensor.height)
+        this.vertical_line(x1center + sensor.width / 4, y1, sensor.height)
+
+        // Add simple text
+        this.ctx.translate(x1center, y1center);
+        this.ctx.rotate(-Math.PI / 6);
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('Example', 2, 0);
+
+        this.ctx.restore();
+    }
+
     public line(x1: number, y1: number, x2: number, y2: number, color: Color) {
         this.ctx.save()
 
@@ -108,7 +172,7 @@ export class Gfx {
         this.line(x, y, x + width, y, color)
     }
 
-    public verical_line(x: number, y: number, height: number, color: Color = COLOR_ON) {
+    public vertical_line(x: number, y: number, height: number, color: Color = COLOR_ON) {
         this.line(x, y, x, y + height, color)
     }
 
@@ -142,6 +206,6 @@ export class Gfx {
 
 }
 
-export function id<T>(el: T): T {
+export function id<Sensor>(el: Sensor): Sensor {
     return el;
 }
